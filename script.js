@@ -38,7 +38,7 @@ elButton.addEventListener('click', function () {
   list = [];
 
   function updateScroll(){
-    var element = document.getElementById("test");
+    var element = document.getElementById("mainList");
     element.scrollTop = element.scrollHeight;
   }
   updateScroll();
