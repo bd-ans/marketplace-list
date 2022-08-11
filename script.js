@@ -33,6 +33,7 @@ let showHide = function() {
   }
 }
 // elFormBtn && elFormClearBtn show or hide function
+// main function
 elBtn.addEventListener('click', function () {
   let inputValue = elInput.value.trim();
   if (inputValue === '' || inputValue === null || inputValue === undefined || Number(inputValue) || inputValue.length < 2) {
@@ -89,7 +90,7 @@ elBtn.addEventListener('click', function () {
         
         elFormClearBtn.addEventListener('click', function() { // clear btn function
           list.length = 0;
-          ellist.innerHTML = '';
+          ellist.innerHTML = null;
           elFormInput.value = list;
           showHide();
         }); // clear btn function end
@@ -108,7 +109,6 @@ elBtn.addEventListener('click', function () {
         element.scrollTop = element.scrollHeight;
       }
       updateScroll(); // update scroll function end
-      
       } // list includes check end
     }
-});
+}); // main function end
