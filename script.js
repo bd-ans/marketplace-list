@@ -18,9 +18,10 @@ elButton.addEventListener('click', function () {
   } else { 
     elInput.setAttribute('placeholder', 'Masalan: olma yoki nok');
     list.push(inputValue);
+    let elLList = document.createElement('li');
+
 
   for (mahsulotNomi of list) {
-    let elLList = document.createElement('li');
     elLList.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
     elLList.textContent = mahsulotNomi;
     ellist.appendChild(elLList);
@@ -34,8 +35,8 @@ elButton.addEventListener('click', function () {
       ellist.removeChild(elLList);
     });
   }
-  elInput.value = '';
-  list = [];
+  elInput.value = null;
+  elInput.focus();
 
   function updateScroll(){
     var element = document.getElementById("mainList");
