@@ -13,43 +13,59 @@
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
 </head>
 <body class="bg-info">
-
+    <!-- main container -->
     <main class="main container d-flex justify-content-center align-items-center pt-5">
       <div class="main-inner col-md-9">
         <div class="marketblace-main-box mt-5 shadow rounded-3 pb-2">
-          
+          <!-- marketplace title-->
           <h4 class="marketblace-box-title text-center text-light fw-bold user-select-none pt-1 mb-0">
             Olinishi kerak bo'lgan mahsulotlar
           </h4>
+          <!-- marketplace title end-->
           <p class="marketblace-box-title text-center text-light user-select-none">
             ularni shu yerdagi ro'yhatga qo'shishingiz mumjin
           </p>
           <div class="row pe-3">
-
+            <!-- left main sec -->
             <div class="col-6 ps-4 border-end">
               <p class="mb-0 text-light">Mahsulot nomini kiriting</p>
               <input class="input bg-transparent border-white text-light shadow-sm form-control" type="text" autocomplete="off" autofocus maxlength="25" placeholder="Masalan: olma yoki nok">
-
+              <!-- add btn box -->
               <div class="form-btn-box d-flex justify-content-end align-items-center my-1">
-                <button class="btn btn-info shadow-lg rounded-3 border-light text-light d-flex align-items-center" type="button">Ro'yhatga qo'shish
+                <button class="btn btn-info shadow-lg rounded-3 border-light text-light d-flex align-items-center justify-content-center" type="button">Ro'yhatga qo'shish
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
                   </svg>
                 </button>
               </div>
-
+              <!-- add btn box end-->
             </div>
-            
-            <div id="mainList" class="col-6 p-0 ps-1 overflow-auto" style="height: 260px;">
-              <ul class="list  list-group list-group-numbered">
+            <!-- left main sec end -->
+            <!-- right main sec -->
+            <div class="col-6 p-0 ps-1" style="height: 260px;">
+              <p class="mb-0 text-light text-center d-flex justify-content-center align-items-center border-bottom">Olinadigan mahsultotlar ro'yhati 
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                </svg>
+              </p>
+              <!-- right main list box -->
+              <ul id="mainList" class="list list-group list-group-numbered overflow-auto h-75">
               </ul>
+              <!-- right main list box end-->
+              <!-- right main form sec -->
+              <form class="d-flex justify-content-between align-items-center" action="https://echo.htmlacademy.ru" method="POST">
+                <input class="form-input visually-hidden" name="Olinadigan Mahsulotlar" type="text">
+                <button class="form-clear-btn btn btn-info shadow-lg rounded-3 border-light text-light align-items-center justify-content-centerbtn w-100 mt-1 d-none" type="button">Tozalash</button>
+                <button class="form-btn btn btn-info shadow-lg rounded-3 border-light text-light align-items-center justify-content-centerbtn w-100 mt-1 ms-1 d-none" type="submit">Sotib olish</button>
+              </form>
+              <!-- right main form sec -->
             </div>
-
+            <!-- right main sec end -->
           </div>
         </div>
       </div>
     </main>
-  
+  <!-- main container end -->
   <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="./bootstrap/js/bootstrap.min.js"></script>
   <script src="./script.js"></script>
