@@ -10,8 +10,10 @@ elInput.addEventListener('keyup', function(e) {
   }
 } );
 
+elInput.setAttribute('maxlength', '25');
+
 elButton.addEventListener('click', function () {
-  let inputValue = elInput.value;
+  let inputValue = elInput.value.trim();
 
   if (inputValue === '' || inputValue === null || inputValue === undefined || Number(inputValue)) {
     elInput.setAttribute('placeholder', 'Iltimos mahsulot nomini kiriting');
@@ -20,6 +22,7 @@ elButton.addEventListener('click', function () {
   } else { 
     elInput.setAttribute('placeholder', 'Masalan: olma yoki nok');
     list.push(inputValue);
+    let elLList = document.createElement('li');
 
     for (mahsulotNomi of list) {
       elLList.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
