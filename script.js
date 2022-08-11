@@ -61,9 +61,9 @@ elBtn.addEventListener('click', function () {
         elItem.appendChild(deleteBtn);
 
         deleteBtn.addEventListener('click', function () {
-          var test = elItem.firstChild.textContent;
+          let elItemTextCont = elItem.firstChild.textContent;
           ellist.removeChild(elItem);
-          list.splice(list.indexOf(test), 1);
+          list.splice(list.indexOf(elItemTextCont), 1);
           showHide();
         }); // delete list items btn
         
