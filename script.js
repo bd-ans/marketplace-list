@@ -13,28 +13,29 @@ elInput.addEventListener('keyup', function(e) {
 elButton.addEventListener('click', function () {
   let inputValue = elInput.value;
 
-  if (inputValue === '') {
+  if (inputValue === '' || inputValue === null || inputValue === undefined || Number(inputValue)) {
     elInput.setAttribute('placeholder', 'Iltimos mahsulot nomini kiriting');
+    elInput.value = null;
+    elInput.focus();
   } else { 
     elInput.setAttribute('placeholder', 'Masalan: olma yoki nok');
     list.push(inputValue);
-    let elLList = document.createElement('li');
 
-
-  for (mahsulotNomi of list) {
-    elLList.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
-    elLList.textContent = mahsulotNomi;
-    ellist.appendChild(elLList);
-
-    let deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'O\'chirish';
-    deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1');
-    elLList.appendChild(deleteBtn);
-
-    deleteBtn.addEventListener('click', function () {
-      ellist.removeChild(elLList);
+    for (mahsulotNomi of list) {
+      elLList.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
+      elLList.textContent = mahsulotNomi;
+      ellist.appendChild(elLList);
+  
+      let deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'O\'chirish';
+      deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1');
+      elLList.appendChild(deleteBtn);
+  
+      deleteBtn.addEventListener('click', function () {
+        ellist.removeChild(elLList);
     });
   }
+
   elInput.value = null;
   elInput.focus();
 
