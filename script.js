@@ -1,4 +1,5 @@
 let elInput = document.querySelector('.input');
+let elFormCheckInput = document.querySelector('.form-check-input');
 let elFormInput = document.querySelector('.form-input');
 let elBtn = document.querySelector('.btn');
 let elFormBtn = document.querySelector('.form-btn');
@@ -59,7 +60,6 @@ elBtn.addEventListener('click', function () {
         ellist.appendChild(elItem);
         
         let deleteBtn = document.createElement('button'); // delete list items btn
-        // deleteBtn.id = list.length;
         deleteBtn.textContent = 'O\'chirish';
         deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
         elItem.appendChild(deleteBtn);
