@@ -11,6 +11,7 @@ elInput.addEventListener('keyup', function(e) {
   }
 } );
 
+
 let list = [];
 elInput.setAttribute('maxlength', '25');
 
@@ -33,28 +34,29 @@ elBtn.addEventListener('click', function () {
       elInput.setAttribute('placeholder', 'davom eting');
       list.push(inputValue);
       let elItem = document.createElement('li');
+      // elItem.id = list.length;
       elInput.classList.remove('is-invalid');
-      
+      // form ans cler button show & hide function
       elFormBtn.classList.remove('d-none');
       elFormBtn.classList.add('d-block');
       elFormClearBtn.classList.remove('d-none');
       elFormClearBtn.classList.add('d-block');
-      
+      // form ans cler button show & hide func end
       for (mahsulotNomi of list) { // main for function
         elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
         elItem.textContent = mahsulotNomi;
         ellist.appendChild(elItem);
         
         let deleteBtn = document.createElement('button'); // delete list items btn
+        // deleteBtn.id = list.length;
         deleteBtn.textContent = 'O\'chirish';
         deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
         elItem.appendChild(deleteBtn);
-    
+
         deleteBtn.addEventListener('click', function () {
+          var test = elItem.firstChild.textContent;
           ellist.removeChild(elItem);
-          // list.splice(list.indexOf);
-          list.splice(list.indexOf(mahsulotNomi), list.length);
-          console.log(list);
+          list.splice(list.indexOf(test), 1);
         }); // delete list items btn
         
         elFormClearBtn.addEventListener('click', function() { // clear btn function
@@ -63,7 +65,6 @@ elBtn.addEventListener('click', function () {
           elFormInput.value = list;
         }); // clear btn function end
         
-
         elFormBtn.addEventListener('click', function() { // send form values btn function
           elFormInput.value = list;
         }); // send form values btn function end
@@ -82,7 +83,3 @@ elBtn.addEventListener('click', function () {
       } // list includes check end
     }
 });
-
-// setInterval(function() {
-//   console.log(list);
-// } , 1500);
