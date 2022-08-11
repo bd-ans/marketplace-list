@@ -16,15 +16,19 @@ elInput.setAttribute('maxlength', '25');
 // elFormBtn && elFormClearBtn show or hide function
 let showHide = function() {
   if (list.length <= 0) {
-    elFormBtn.classList.add('d-none');
-    elFormBtn.classList.remove('d-block');
-    elFormClearBtn.classList.add('d-none');
-    elFormClearBtn.classList.remove('d-block');
+    elFormBtn.classList.add('opacity-50');
+    elFormBtn.classList.add('disabled');
+    elFormBtn.classList.remove('opacity-100');
+    elFormClearBtn.classList.add('opacity-50');
+    elFormClearBtn.classList.add('disabled');
+    elFormClearBtn.classList.remove('opacity-100');
   } else {
-    elFormBtn.classList.remove('d-none');
-    elFormBtn.classList.remove('d-block');
-    elFormClearBtn.classList.remove('d-none');
-    elFormClearBtn.classList.remove('d-block');
+    elFormBtn.classList.remove('opacity-50');
+    elFormBtn.classList.remove('disabled');
+    elFormBtn.classList.add('opacity-100');
+    elFormClearBtn.classList.remove('opacity-50');
+    elFormClearBtn.classList.remove('disabled');
+    elFormClearBtn.classList.add('opacity-100');
   }
 }
 // elFormBtn && elFormClearBtn show or hide function
