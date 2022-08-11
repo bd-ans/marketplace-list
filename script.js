@@ -58,7 +58,11 @@ elBtn.addEventListener('click', function () {
       showHide();
 
       for (mahsulotNomi of list) { // main for function
+        if (elFormCheckInput.checked) {
+          elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg');
+        } else {
         elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
+        }
         mahsulotNomi = inputValue;
         elItem.textContent = mahsulotNomi;
         if (elFormCheckInput.checked) {
@@ -69,7 +73,11 @@ elBtn.addEventListener('click', function () {
         
         let deleteBtn = document.createElement('button'); // delete list items btn
         deleteBtn.textContent = 'O\'chirish';
+        if (elFormCheckInput.checked) {
+          deleteBtn.setAttribute('class', 'btn btn-warning shadow-lg rounded-3 border-light text-black ms-auto me-1 btn-sm');
+        } else {
         deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
+        }
         elItem.appendChild(deleteBtn);
 
         deleteBtn.addEventListener('click', function () {
