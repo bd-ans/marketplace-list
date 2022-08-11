@@ -11,10 +11,23 @@ elInput.addEventListener('keyup', function(e) {
   }
 } );
 
-
 let list = [];
 elInput.setAttribute('maxlength', '25');
-
+// elFormBtn && elFormClearBtn show or hide function
+let showHide = function() {
+  if (list.length <= 0) {
+    elFormBtn.classList.add('d-none');
+    elFormBtn.classList.remove('d-block');
+    elFormClearBtn.classList.add('d-none');
+    elFormClearBtn.classList.remove('d-block');
+  } else {
+    elFormBtn.classList.remove('d-none');
+    elFormBtn.classList.remove('d-block');
+    elFormClearBtn.classList.remove('d-none');
+    elFormClearBtn.classList.remove('d-block');
+  }
+}
+// elFormBtn && elFormClearBtn show or hide function
 elBtn.addEventListener('click', function () {
   let inputValue = elInput.value.trim();
 
@@ -24,7 +37,6 @@ elBtn.addEventListener('click', function () {
     elInput.value = null;
     elInput.focus();
   } else {
-    
     if (list.includes(inputValue)) { // list includes check function
       elInput.setAttribute('placeholder', 'Bu mahsulot oldin qo`shilgan');
       elInput.classList.add('is-invalid');
@@ -34,14 +46,9 @@ elBtn.addEventListener('click', function () {
       elInput.setAttribute('placeholder', 'davom eting');
       list.push(inputValue);
       let elItem = document.createElement('li');
-      // elItem.id = list.length;
       elInput.classList.remove('is-invalid');
-      // form ans cler button show & hide function
-      elFormBtn.classList.remove('d-none');
-      elFormBtn.classList.add('d-block');
-      elFormClearBtn.classList.remove('d-none');
-      elFormClearBtn.classList.add('d-block');
-      // form ans cler button show & hide func end
+      showHide();
+
       for (mahsulotNomi of list) { // main for function
         elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
         elItem.textContent = mahsulotNomi;
@@ -57,12 +64,14 @@ elBtn.addEventListener('click', function () {
           var test = elItem.firstChild.textContent;
           ellist.removeChild(elItem);
           list.splice(list.indexOf(test), 1);
+          showHide();
         }); // delete list items btn
         
         elFormClearBtn.addEventListener('click', function() { // clear btn function
           list.length = 0;
           ellist.innerHTML = '';
           elFormInput.value = list;
+          showHide();
         }); // clear btn function end
         
         elFormBtn.addEventListener('click', function() { // send form values btn function
