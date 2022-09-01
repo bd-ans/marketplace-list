@@ -85,6 +85,10 @@ elFormCheckInput.addEventListener('change', function() {
   localStorage.setItem('formCheckInput', elFormCheckInput.checked);
 });
 
+setTimeout(function() {
+  elFormCheckInput.classList.remove('placeholder', 'opacity-0');
+} , 100);
+
 elInput.setAttribute('maxlength', '25');
 // elFormBuyBtn && elFormClearBtn show or hide function
 
