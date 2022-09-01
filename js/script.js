@@ -1,10 +1,10 @@
-let elInput = document.querySelector('.input');
-let elFormCheckInput = document.querySelector('.form-check-input');
-let elFormInput = document.querySelector('.form-input');
-let elBtn = document.querySelector('.btn');
-let elFormBtn = document.querySelector('.form-btn');
-let elFormClearBtn = document.querySelector('.form-clear-btn');
-let ellist = document.querySelector('.list');
+let elInput = $('.input');
+let elFormCheckInput = $('.form-check-input');
+let elFormInput = $('.form-input');
+let elBtn = $('.js-add-to-list-btn');
+let elFormBtn = $('.form-btn');
+let elFormClearBtn = $('.form-clear-btn');
+let ellist = $('.list');
 
 elInput.addEventListener('keyup', function(e) {
   if (e.keyCode === 13) {
@@ -12,7 +12,38 @@ elInput.addEventListener('keyup', function(e) {
   }
 } );
 
-let list = [];
+let list = [
+  'olma',
+  'nok'
+];
+
+list = JSON.parse(localStorage.getItem('list')) || list;
+
+list.forEach(function(item) {
+  let elItem = document.createElement('li');
+  elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
+  elItem.classList.add('list-item');
+  elItem.innerHTML = item;
+  ellist.appendChild(elItem);
+  // delete btn
+  let deleteBtn = document.createElement('button'); // delete list items btn
+  deleteBtn.textContent = 'O\'chirish';
+  if (elFormCheckInput.checked) {
+    deleteBtn.setAttribute('class', 'btn btn-warning shadow-lg rounded-3 border-light text-black ms-auto me-1 btn-sm');
+  } else {
+  deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
+  }
+  elItem.appendChild(deleteBtn);
+  // delete btn function
+  deleteBtn.addEventListener('click', function () {
+    let elItemTextCont = elItem.firstChild.textContent;
+    ellist.removeChild(elItem);
+    list.splice(list.indexOf(elItemTextCont), 1);
+    showHide();
+    localStorage.removeItem('list');
+  }); // delete list items btn
+} );
+
 elInput.setAttribute('maxlength', '25');
 // elFormBtn && elFormClearBtn show or hide function
 let showHide = function() {
@@ -71,7 +102,7 @@ elBtn.addEventListener('click', function () {
         } else {
         ellist.appendChild(elItem);
         }
-        
+        // delete btn
         let deleteBtn = document.createElement('button'); // delete list items btn
         deleteBtn.textContent = 'O\'chirish';
         if (elFormCheckInput.checked) {
@@ -80,12 +111,13 @@ elBtn.addEventListener('click', function () {
         deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
         }
         elItem.appendChild(deleteBtn);
-
+        // delete btn function
         deleteBtn.addEventListener('click', function () {
           let elItemTextCont = elItem.firstChild.textContent;
           ellist.removeChild(elItem);
           list.splice(list.indexOf(elItemTextCont), 1);
           showHide();
+          localStorage.removeItem('list');
         }); // delete list items btn
         
         elFormClearBtn.addEventListener('click', function() { // clear btn function
@@ -100,7 +132,8 @@ elBtn.addEventListener('click', function () {
         }); // send form values btn function end
 
       } // main for function end
-      
+      //local storage function
+      localStorage.setItem('list', JSON.stringify(list));
       elInput.value = null;
       elInput.focus();
       
@@ -111,4 +144,9 @@ elBtn.addEventListener('click', function () {
       updateScroll(); // update scroll function end
       } // list includes check end
     }
+
 }); // main function end
+setInterval(function() {
+  console.log(list);
+} , 1500);
+// localStorage.removeItem('mahsultolar');
