@@ -6,8 +6,9 @@ let elFormBuyBtn = $('.js-but-btn');
 let elFormClearBtn = $('.js-form-clear-btn');
 let ellist = $('.list');
 
-let tst = [];
-tst = JSON.parse(localStorage.getItem('tst')) || [];
+// first buyinung list array
+let firstBuyingList = [];
+firstBuyingList = JSON.parse(localStorage.getItem('firstBuyingList')) || [];
 
 // input keyup event
 elInput.addEventListener('keyup', function(e) {
@@ -15,44 +16,47 @@ elInput.addEventListener('keyup', function(e) {
     elBtn.click();
   }
 } );
+
 // list array
 let list = [];
 
 // localstroage set function
 list = JSON.parse(localStorage.getItem('list')) || list;
 
-// time 
-let time = new Date();
-
 // forEach function
 list.forEach(function(item) {
   let elItem = document.createElement('li');
-/*   if (item === 'olmhhha') {
-    elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg');
-  } else {
-  elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
-  } */
+
+  // on reload scroll chek function
+  let element = document.getElementById("mainList");
+  let scrollpos = localStorage.getItem('scrollpos');
+  element.scrollTo(0, scrollpos);
+
   elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
   elItem.classList.add('list-item');
   elItem.innerHTML = item;
   ellist.appendChild(elItem);
+
   // delete btn
   let deleteBtn = document.createElement('button'); // delete list items btn
   deleteBtn.textContent = 'O\'chirish';
   deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
   elItem.appendChild(deleteBtn);
+
   // delete btn function
   deleteBtn.addEventListener('click', function () {
     let elItemTextCont = elItem.firstChild.textContent;
     const indexm = list.indexOf(elItemTextCont);
     list.splice(indexm, 1);
-    tst.splice(indexm, 1);
+    firstBuyingList.splice(indexm, 1);
     elItem.remove();
     localStorage.setItem('list', JSON.stringify(list));
-    localStorage.setItem('tst', JSON.stringify(tst));
+    localStorage.setItem('firstBuyingList', JSON.stringify(firstBuyingList));
     showHide();
   });
-  if (tst.includes(elItem.firstChild.textContent)) {
+
+  // first buying elemnts check function
+  if (firstBuyingList.includes(elItem.firstChild.textContent)) {
     elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg fw-bolder');
     deleteBtn.setAttribute('class', 'btn btn-warning shadow-lg rounded-3 border-light text-black ms-auto me-1 btn-sm');
   }
@@ -80,12 +84,12 @@ if (list.length <= 0) {
 // cler btn function
 elFormClearBtn.addEventListener('click', function() { // clear btn function
   list.length = 0;
-  tst.length = 0;
+  firstBuyingList.length = 0;
   ellist.innerHTML = null;
   elFormInput.value = list;
   showHide();
   localStorage.setItem('list', JSON.stringify(list));
-  localStorage.setItem('tst', JSON.stringify(tst));
+  localStorage.setItem('firstBuyingList', JSON.stringify(firstBuyingList));
 });
 
 // buy btn function
@@ -133,6 +137,7 @@ let showHide = function() {
 // main function
 elBtn.addEventListener('click', function () {
   let inputValue = elInput.value.trim();
+
   // input value check
   if (inputValue === '' || inputValue === null || inputValue === undefined || Number(inputValue) || inputValue.length < 2) {
     elInput.setAttribute('placeholder', 'Iltimos mahsulot nomini kiriting');
@@ -140,18 +145,23 @@ elBtn.addEventListener('click', function () {
     elInput.value = null;
     elInput.focus();
   } else {
-    if (list.includes(inputValue)) { // list includes check function
+
+    // list includes check function
+    if (list.includes(inputValue)) {
       elInput.setAttribute('placeholder', 'Bu mahsulot oldin qo`shilgan');
       elInput.classList.add('is-invalid');
       elInput.value = null;
       elInput.focus();
     } else {
       elInput.setAttribute('placeholder', 'davom eting');
+
+      // if check input is checked push or unshift
       if (elFormCheckInput.checked) {
         list.unshift(inputValue);
       } else {
       list.push(inputValue);
       }
+
       let elItem = document.createElement('li');
       elInput.classList.remove('is-invalid');
       showHide();
@@ -166,20 +176,41 @@ elBtn.addEventListener('click', function () {
         mahsulotNomi = inputValue;
         elItem.textContent = mahsulotNomi;
         let elItemTextCont = elItem.firstChild.textContent;
+
+        // if check input is checked inert first child function 
         if (elFormCheckInput.checked) {
           ellist.insertBefore(elItem, ellist.firstChild);
-          
-          // tst.insertBefore(elItem, tst.firstChild);
-          tst.push(elItemTextCont);
-          tst = tst.filter(function(item, index) {
-            return tst.indexOf(item) === index;
+          firstBuyingList.push(elItemTextCont);
+          firstBuyingList = firstBuyingList.filter(function(item, index) {
+            return firstBuyingList.indexOf(item) === index;
           });
-          localStorage.setItem('tst', JSON.stringify(tst));
+
+          // first buying elemnts get localStorage function
+          localStorage.setItem('firstBuyingList', JSON.stringify(firstBuyingList));
+
+          // scrol to top function 
+          var element = document.getElementById("mainList");
+          function updateScroll(){
+            element.scrollTo({top: 0, behavior: 'smooth'});
+          }
+          updateScroll();
+
+          // scroll position get loacalstore function
+          localStorage.setItem('scrollpos', 0);
         } else {
-        ellist.appendChild(elItem);
+          ellist.appendChild(elItem);
+          // update scroll function
+          let element = document.getElementById("mainList");
+          function updateScroll(){
+            element.scrollTo({top: element.scrollHeight, behavior: 'smooth'});
+          }
+          updateScroll();
+
+          // scroll position get loacalstore function
+          localStorage.setItem('scrollpos', element.scrollHeight);
         }
 
-        // delete btn
+        // delete btn creating function
         let deleteBtn = document.createElement('button'); // delete list items btn
         deleteBtn.textContent = 'O\'chirish';
         if (elFormCheckInput.checked) {
@@ -187,6 +218,8 @@ elBtn.addEventListener('click', function () {
         } else {
         deleteBtn.setAttribute('class', 'btn btn-info shadow-lg rounded-3 border-light text-light ms-auto me-1 btn-sm');
         }
+
+        // apend delete btn to list items
         elItem.appendChild(deleteBtn);
 
         // delete btn function
@@ -194,10 +227,16 @@ elBtn.addEventListener('click', function () {
           let elItemTextCont = elItem.firstChild.textContent;
           const indexm = list.indexOf(elItemTextCont);
           list.splice(indexm, 1);
-          tst.splice(indexm, 1);
+          firstBuyingList.splice(indexm, 1);
+
+          // li remove to list
           elItem.remove();
+
+          // list set localStorage function
           localStorage.setItem('list', JSON.stringify(list));
-          localStorage.setItem('tst', JSON.stringify(tst));
+
+          // firs buying list set localStorage function
+          localStorage.setItem('firstBuyingList', JSON.stringify(firstBuyingList));
           showHide();
         });
 
@@ -211,48 +250,20 @@ elBtn.addEventListener('click', function () {
       localStorage.setItem('list', JSON.stringify(list));
       elInput.value = null;
       elInput.focus();
-
-      // update scroll function
-      function updateScroll(){
-        var element = document.getElementById("mainList");
-        element.scrollTop = element.scrollHeight;
-      }
-      updateScroll();
-      // send message function
-      function sendmessage(){
-                chat_id = 1670604763;
-                token = `5498274845:AAFuzhbK9fyZ1jTAH-U8KB55q-9wMzS9dIw`;
-                let message = `Qo'shildi - ${inputValue}. Bor - [${list.join(', ')}][${list.length}]  -  ${time}`;
-                let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${message}`;
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.send();
-              }
-              sendmessage();
       }
     }
 });
 
 // cler btn function
-elFormClearBtn.addEventListener('click', function() { // clear btn function
+elFormClearBtn.addEventListener('click', function() {
   list.length = 0;
-  tst.length = 0;
+  firstBuyingList.length = 0;
   ellist.innerHTML = null;
   elFormInput.value = list;
   showHide();
-  localStorage.setItem('list', JSON.stringify(list));
-  localStorage.setItem('tst', JSON.stringify(tst));
 
-  // send message function
-  function sendmessage(){
-    chat_id = 1670604763;
-    token = `5498274845:AAFuzhbK9fyZ1jTAH-U8KB55q-9wMzS9dIw`;
-    let message = `Hammasi o'chirildi - ${time}`;
-    let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${message}`;
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.send();
-  }
-  sendmessage();
+  // list set localStorage function
+  localStorage.setItem('list', JSON.stringify(list));
+  // firs buying list set localStorage function
+  localStorage.setItem('firstBuyingList', JSON.stringify(firstBuyingList));
 });
-// localStorage.removeItem('tst');
