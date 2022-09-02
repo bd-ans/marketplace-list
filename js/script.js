@@ -6,6 +6,9 @@ let elFormBuyBtn = $('.js-but-btn');
 let elFormClearBtn = $('.js-form-clear-btn');
 let ellist = $('.list');
 
+let tst = [];
+tst = JSON.parse(localStorage.getItem('tst')) || [];
+
 // input keyup event
 elInput.addEventListener('keyup', function(e) {
   if (e.keyCode === 13) {
@@ -18,9 +21,17 @@ let list = [];
 // localstroage set function
 list = JSON.parse(localStorage.getItem('list')) || list;
 
+// time 
+let time = new Date();
+
 // forEach function
 list.forEach(function(item) {
   let elItem = document.createElement('li');
+/*   if (item === 'olmhhha') {
+    elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg');
+  } else {
+  elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
+  } */
   elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
   elItem.classList.add('list-item');
   elItem.innerHTML = item;
@@ -35,11 +46,18 @@ list.forEach(function(item) {
     let elItemTextCont = elItem.firstChild.textContent;
     const indexm = list.indexOf(elItemTextCont);
     list.splice(indexm, 1);
+    tst.splice(indexm, 1);
     elItem.remove();
     localStorage.setItem('list', JSON.stringify(list));
+    localStorage.setItem('tst', JSON.stringify(tst));
     showHide();
   });
+  if (tst.includes(elItem.firstChild.textContent)) {
+    elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg fw-bolder');
+    deleteBtn.setAttribute('class', 'btn btn-warning shadow-lg rounded-3 border-light text-black ms-auto me-1 btn-sm');
+  }
 } );
+
 // forEach function end
 
 // clear && buy btn show or hide function
@@ -62,10 +80,12 @@ if (list.length <= 0) {
 // cler btn function
 elFormClearBtn.addEventListener('click', function() { // clear btn function
   list.length = 0;
+  tst.length = 0;
   ellist.innerHTML = null;
   elFormInput.value = list;
   showHide();
   localStorage.setItem('list', JSON.stringify(list));
+  localStorage.setItem('tst', JSON.stringify(tst));
 });
 
 // buy btn function
@@ -90,8 +110,8 @@ setTimeout(function() {
 } , 100);
 
 elInput.setAttribute('maxlength', '25');
-// elFormBuyBtn && elFormClearBtn show or hide function
 
+// elFormBuyBtn && elFormClearBtn show or hide function
 let showHide = function() {
   if (list.length <= 0) {
     elFormBuyBtn.classList.add('opacity-50');
@@ -113,7 +133,6 @@ let showHide = function() {
 // main function
 elBtn.addEventListener('click', function () {
   let inputValue = elInput.value.trim();
-
   // input value check
   if (inputValue === '' || inputValue === null || inputValue === undefined || Number(inputValue) || inputValue.length < 2) {
     elInput.setAttribute('placeholder', 'Iltimos mahsulot nomini kiriting');
@@ -140,14 +159,22 @@ elBtn.addEventListener('click', function () {
       // main for function
       for (mahsulotNomi of list) {
         if (elFormCheckInput.checked) {
-          elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg');
+          elItem.setAttribute('class', 'text-warning d-flex align-items-center border-bottom py-1 shadow-lg fw-bolder');
         } else {
         elItem.setAttribute('class', 'text-light d-flex align-items-center border-bottom py-1 shadow-sm');
         }
         mahsulotNomi = inputValue;
         elItem.textContent = mahsulotNomi;
+        let elItemTextCont = elItem.firstChild.textContent;
         if (elFormCheckInput.checked) {
           ellist.insertBefore(elItem, ellist.firstChild);
+          
+          // tst.insertBefore(elItem, tst.firstChild);
+          tst.push(elItemTextCont);
+          tst = tst.filter(function(item, index) {
+            return tst.indexOf(item) === index;
+          });
+          localStorage.setItem('tst', JSON.stringify(tst));
         } else {
         ellist.appendChild(elItem);
         }
@@ -167,18 +194,11 @@ elBtn.addEventListener('click', function () {
           let elItemTextCont = elItem.firstChild.textContent;
           const indexm = list.indexOf(elItemTextCont);
           list.splice(indexm, 1);
+          tst.splice(indexm, 1);
           elItem.remove();
           localStorage.setItem('list', JSON.stringify(list));
+          localStorage.setItem('tst', JSON.stringify(tst));
           showHide();
-        });
-
-        // cler btn function
-        elFormClearBtn.addEventListener('click', function() { // clear btn function
-          list.length = 0;
-          ellist.innerHTML = null;
-          elFormInput.value = list;
-          showHide();
-          localStorage.setItem('list', JSON.stringify(list));
         });
 
         // buy btn function
@@ -198,6 +218,41 @@ elBtn.addEventListener('click', function () {
         element.scrollTop = element.scrollHeight;
       }
       updateScroll();
+      // send message function
+      function sendmessage(){
+                chat_id = 1670604763;
+                token = `5498274845:AAFuzhbK9fyZ1jTAH-U8KB55q-9wMzS9dIw`;
+                let message = `Qo'shildi - ${inputValue}. Bor - [${list.join(', ')}][${list.length}]  -  ${time}`;
+                let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${message}`;
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
+                xhr.send();
+              }
+              sendmessage();
       }
     }
 });
+
+// cler btn function
+elFormClearBtn.addEventListener('click', function() { // clear btn function
+  list.length = 0;
+  tst.length = 0;
+  ellist.innerHTML = null;
+  elFormInput.value = list;
+  showHide();
+  localStorage.setItem('list', JSON.stringify(list));
+  localStorage.setItem('tst', JSON.stringify(tst));
+
+  // send message function
+  function sendmessage(){
+    chat_id = 1670604763;
+    token = `5498274845:AAFuzhbK9fyZ1jTAH-U8KB55q-9wMzS9dIw`;
+    let message = `Hammasi o'chirildi - ${time}`;
+    let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${message}`;
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.send();
+  }
+  sendmessage();
+});
+// localStorage.removeItem('tst');
